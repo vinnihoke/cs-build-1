@@ -38,16 +38,18 @@ const Game = () => {
 
     const [template, setTemplate] = useState(false);
 
-    const [generation, setGeneration] = useState(0)
+    const generations = useRef(0)
 
     const toggleTemplate = () => {
         setTemplate(!template)
     }
 
+
+    const [generationStyle, setGenerationStyle] = useState("silver")
     const generationColors = () => {
-        if (generation > 5) return "#E6B0AA"
-        if (generation > 10) return "#CD6155"
-        if (generation > 15) return "#641E16"
+        if (generations.current > 100 && generations.current < 200) return setGenerationStyle("#E6B0AA")
+        if (generations.current > 200 && generations.current < 300) return setGenerationStyle("#CD6155")
+        if (generations.current > 300) return setGenerationStyle("#641E16")
     }
 
     const generateRandomGrid = () => {
@@ -65,9 +67,6 @@ const Game = () => {
     const runningRef = useRef(running);
     runningRef.current = running;
 
-    const increment = useCallback(() => {
-        setGeneration(generation + 1)
-    }, [generation])
 
     const runSimulation = useCallback(() => {
         // Acts as a recursive break function.
@@ -75,8 +74,7 @@ const Game = () => {
             return;
         }
 
-        increment()
-        console.log(generation)
+        generationColors()
 
         setGrid(grid => {
             return produce(grid, gridCopy => {
@@ -120,14 +118,14 @@ const Game = () => {
                                         });
                                         setGrid(newGrid);
                                     }}
-                                    style={{ width: 20, height: 20, backgroundColor: grid[r][c] ? "silver" : undefined, border: "solid 1px whitesmoke" }}
+                                    style={{ width: 20, height: 20, backgroundColor: grid[r][c] ? generationStyle : undefined, border: "solid 1px whitesmoke" }}
                                 />
                             })
                         )}
                     </div>
                 </section>
                 <p>Delay: {speed}ms</p>
-                <p>Generation: {generation}</p>
+                <p>Generations: {generations.current++}</p>
                 <section>
                     <aside>
                         <button className="m-10" onClick={() => {
@@ -150,6 +148,7 @@ const Game = () => {
                     <aside>
                         <button className="m-10"
                             onClick={() => {
+                                generations.current = 0
                                 setGrid(generateEmptyGrid());
                             }}>
                             Clear
