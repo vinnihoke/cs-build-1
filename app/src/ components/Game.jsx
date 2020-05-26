@@ -1,3 +1,4 @@
+// @ts-check
 import React, { useState, useCallback, useRef } from 'react';
 import produce from 'immer';
 
@@ -18,7 +19,7 @@ const operations = [
 const generateEmptyGrid = () => {
     const rows = [];
     // Making a grid of empty zeroes.
-    for (row in numRows) {
+    for (let i = 0; i < numRows; i++) {
         rows.push(Array.from(Array(numCols), () => 0))
     }
 
@@ -33,7 +34,7 @@ const Game = () => {
     const [running, setRunning] = useState(false);
 
     // Setting the current running status to false.
-    const runingRef = useRef(running);
+    const runningRef = useRef(running);
     runningRef.current = running;
 
     const runSimulation = useCallback(() => {
@@ -42,7 +43,7 @@ const Game = () => {
         }
 
         setGrid(grid => {
-            return product(grid, gridCopy => {
+            return produce(grid, gridCopy => {
                 for (let i = 0; i < numRows; i++) {
                     for (let k = 0; k < numCols; k++) {
                         let neighbors = 0;
@@ -50,13 +51,13 @@ const Game = () => {
                             const newI = i + x;
                             const newK = k + y;
                             if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
-                                neighbors += g[newI][newK]
+                                neighbors += grid[newI][newK]
                             }
                         });
 
                         if (neighbors < 2 || neighbors > 3) {
                             gridCopy[i][k] = 0
-                        } else if (g[i][k] === 0 && neighbors === 3) {
+                        } else if (grid[i][k] === 0 && neighbors === 3) {
                             gridCopy[i][k] = 1;
                         }
                     }
@@ -68,9 +69,61 @@ const Game = () => {
     }, [])
 
     return (
-        <div>
-
-        </div>
+        <section>
+            <aside>
+                <section>
+                    <div style={{ display: "grid", gridTemplateColumns: `repeat(${numCols}, 20px)` }}>
+                        {grid.map((rows, i) =>
+                            rows.map((col, k) => (
+                                <div key={`${i}-${k}`}
+                                    onClick={() => {
+                                        const newGrid = produce(grid, gridCopy => {
+                                            gridCopy[i][k] = grid[i][k] ? 0 : 1;
+                                        });
+                                        setGrid(newGrid);
+                                    }}
+                                    style={{ width: 20, height: 20, backgroundColor: grid[i][k] ? "silver" : undefined, border: "solid 1px whitesmoke" }}
+                                />
+                            ))
+                        )}
+                    </div>
+                </section>
+                <section>
+                    <aside>
+                        <button onClick={() => {
+                            setRunning(!running);
+                            if (!running) {
+                                runningRef.current = true;
+                                runSimulation();
+                            }
+                        }}>
+                            {running ? "Stop" : "Start"}
+                        </button>
+                    </aside>
+                    <aside>
+                        <button onClick={() => {
+                            const rows = [];
+                            for (let i = 0; i < numRows; i++) {
+                                rows.push(
+                                    Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
+                                );
+                            }
+                            setGrid(rows)
+                        }}>
+                            Randomize
+                        </button>
+                    </aside>
+                    <aside>
+                        <button
+                            onClick={() => {
+                                setGrid(generateEmptyGrid());
+                            }}>
+                            Clear
+                        </button>
+                    </aside>
+                </section>
+            </aside>
+        </section >
     )
 }
 
