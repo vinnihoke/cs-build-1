@@ -1,0 +1,12 @@
+@import './variables.scss';
+
+@mixin flex($flex:row wrap, $justify:center, $align:center ){
+  display: flex;
+  flex-flow: $flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin shadow($x: 0px, $y: 0px, $blur: 20px, $color: $grey) {
+  box-shadow: $x $y $blur $color;
+}

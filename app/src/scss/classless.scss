@@ -1,0 +1,76 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+// General Helper Classes
+body {
+  width: 100%;
+  @include flex(column, center, center);
+}
+
+// Larger Components
+header {
+	width: 100%;
+	@include flex(row wrap, space-around, center);
+
+	figure {
+		@include flex()
+	}
+
+	nav {
+		@include flex(row wrap, space-between);
+		width: 100%;
+		// Will need a mobile size.
+	}
+	aside:first-child{
+		@include flex(row, flex-start, center)
+	}
+	
+	aside:last-child{
+		@include flex(row, flex-end, center)
+	}
+}
+
+article {
+	padding: 50px 0px;
+	background: whitesmoke;
+
+}
+
+main {
+	width: 100%;
+	max-width: 1000px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+section, aside, article {
+	display: flex;
+	width: 100%;
+}
+
+aside {
+	@include flex();
+}
+
+section > aside {
+	width: 100%;
+}
+section > aside > section {
+	width: 100%;
+}
+section > aside > section > aside {
+	width: 100%;
+}
+
+article > aside {
+	width: 100%;
+	@include flex(column);
+}
+
+article > aside > section {
+	width: 100%;
+}
+
+article > aside > section > aside {
+	width: 100%;
+}
