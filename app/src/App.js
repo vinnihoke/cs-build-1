@@ -11,7 +11,7 @@ function App() {
               Game of Life
             </figure>
           </aside>
-          <aside class="pr-45">
+          <aside className="pr-45">
             In Memoriam: John Conway
           </aside>
         </section>

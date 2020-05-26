@@ -1,6 +1,8 @@
 // @ts-check
 import React, { useState, useCallback, useRef } from 'react';
 import produce from 'immer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const numRows = 50;
 const numCols = 50;
@@ -31,7 +33,13 @@ const Game = () => {
         return generateEmptyGrid();
     })
 
+    const [speed, setSpeed] = useState(100)
+
     const [running, setRunning] = useState(false);
+
+    const buttonMessage = setTimeout(() => {
+        return <span>`Speed: ${speed}`</span>
+    }, 1000)
 
     // Setting the current running status to false.
     const runningRef = useRef(running);
@@ -65,8 +73,8 @@ const Game = () => {
             })
         });
 
-        setTimeout(runSimulation, 100);
-    }, [])
+        setTimeout(runSimulation, speed);
+    }, [speed])
 
     return (
         <section>
@@ -88,9 +96,10 @@ const Game = () => {
                         )}
                     </div>
                 </section>
+                <p>Delay: {speed}ms</p>
                 <section>
                     <aside>
-                        <button onClick={() => {
+                        <button className="m-10" onClick={() => {
                             setRunning(!running);
                             if (!running) {
                                 runningRef.current = true;
@@ -101,7 +110,7 @@ const Game = () => {
                         </button>
                     </aside>
                     <aside>
-                        <button onClick={() => {
+                        <button className="m-10" onClick={() => {
                             const rows = [];
                             for (let i = 0; i < numRows; i++) {
                                 rows.push(
@@ -114,12 +123,41 @@ const Game = () => {
                         </button>
                     </aside>
                     <aside>
-                        <button
+                        <button className="m-10"
                             onClick={() => {
                                 setGrid(generateEmptyGrid());
                             }}>
                             Clear
                         </button>
+                    </aside>
+                    <aside>
+                        {running ? (
+                            <button disabled className="m-10">
+                                -
+                            </button>
+                        ) : (
+                                <button className="m-10"
+                                    onClick={() => {
+                                        setSpeed(speed - 10);
+                                    }}>
+                                    -
+                                </button>
+                            )}
+                    </aside>
+                    <aside>
+                        {running ? (
+                            <button disabled className="m-10">
+                                +
+                            </button>
+                        ) : (
+                                <button className="m-10"
+                                    onClick={() => {
+                                        setSpeed(speed + 10);
+                                    }}>
+                                    +
+                                </button>
+                            )}
+
                     </aside>
                 </section>
             </aside>
