@@ -7,3 +7,18 @@
 @import './mixins.scss';
 @import './classless.scss';
 
+// Template:
+
+.template {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Game_of_life_glider_gun.svg/1920px-Game_of_life_glider_gun.svg.png');
+    // background-color: lightblue;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 760px;
+    height: 250px;
+    opacity: 0.1;
+    z-index: -10;
+    top: 155px;
+    left: 25%;
+    position: fixed;
+}

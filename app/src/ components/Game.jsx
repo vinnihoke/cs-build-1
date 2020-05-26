@@ -37,9 +37,12 @@ const Game = () => {
 
     const [running, setRunning] = useState(false);
 
-    const buttonMessage = setTimeout(() => {
-        return <span>`Speed: ${speed}`</span>
-    }, 1000)
+    const [template, setTemplate] = useState(false)
+
+    const toggleTemplate = () => {
+        setTemplate(!template)
+    }
+
 
     // Setting the current running status to false.
     const runningRef = useRef(running);
@@ -138,7 +141,9 @@ const Game = () => {
                         ) : (
                                 <button className="m-10"
                                     onClick={() => {
-                                        setSpeed(speed - 10);
+                                        if (speed > 0) {
+                                            setSpeed(speed - 10);
+                                        }
                                     }}>
                                     -
                                 </button>
@@ -158,6 +163,15 @@ const Game = () => {
                                 </button>
                             )}
 
+                    </aside>
+                </section>
+                <section>
+                    <aside>
+                        <button onClick={toggleTemplate}>Toggle Template</button>
+                        {template ? (
+                            <div className="template">
+                            </div>
+                        ) : null}
                     </aside>
                 </section>
             </aside>
