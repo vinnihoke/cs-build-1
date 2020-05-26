@@ -1,10 +1,8 @@
 // @ts-check
 import React, { useState, useCallback, useRef } from 'react';
 import produce from 'immer';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const numRows = 50;
+const numRows = 25;
 const numCols = 50;
 
 const operations = [
@@ -20,13 +18,14 @@ const operations = [
 
 const generateEmptyGrid = () => {
     const rows = [];
-    // Making a grid of empty zeroes.
+    // Making a grid of empty zeroes, meaning dead cells.
     for (let i = 0; i < numRows; i++) {
         rows.push(Array.from(Array(numCols), () => 0))
     }
 
     return rows;
 }
+
 
 const Game = () => {
     const [grid, setGrid] = useState(() => {
@@ -37,39 +36,67 @@ const Game = () => {
 
     const [running, setRunning] = useState(false);
 
-    const [template, setTemplate] = useState(false)
+    const [template, setTemplate] = useState(false);
+
+    const [generation, setGeneration] = useState(0)
 
     const toggleTemplate = () => {
         setTemplate(!template)
     }
 
+    const generationColors = () => {
+        if (generation > 5) return "#E6B0AA"
+        if (generation > 10) return "#CD6155"
+        if (generation > 15) return "#641E16"
+    }
 
-    // Setting the current running status to false.
+    const generateRandomGrid = () => {
+        const rows = [];
+        // Making a grid of empty zeroes, meaning dead cells.
+        for (let i = 0; i < numRows; i++) {
+            rows.push(Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0)))
+        }
+
+        setGrid(rows);
+    }
+
+
+    // Setting the current running status to false. This is needed because the running value changes, but the callback does not.
     const runningRef = useRef(running);
     runningRef.current = running;
 
+    const increment = useCallback(() => {
+        setGeneration(generation + 1)
+    }, [generation])
+
     const runSimulation = useCallback(() => {
+        // Acts as a recursive break function.
         if (!runningRef.current) {
             return;
         }
 
+        increment()
+        console.log(generation)
+
         setGrid(grid => {
             return produce(grid, gridCopy => {
-                for (let i = 0; i < numRows; i++) {
-                    for (let k = 0; k < numCols; k++) {
+                for (let r = 0; r < numRows; r++) {
+                    for (let c = 0; c < numCols; c++) {
+                        // You could also use a series of if statements to calculate neighbors.
                         let neighbors = 0;
                         operations.forEach(([x, y]) => {
-                            const newI = i + x;
-                            const newK = k + y;
-                            if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
-                                neighbors += grid[newI][newK]
+                            const newR = r + x;
+                            const newC = c + y;
+                            if (newR >= 0 && newR < numRows && newC >= 0 && newC < numCols) {
+                                neighbors += grid[newR][newC]
                             }
                         });
-
+                        // If a cell has fewer than two, or more than three neighbors, it dies.
                         if (neighbors < 2 || neighbors > 3) {
-                            gridCopy[i][k] = 0
-                        } else if (grid[i][k] === 0 && neighbors === 3) {
-                            gridCopy[i][k] = 1;
+                            gridCopy[r][c] = 0
+                            // Otherwise, if cell is dead, but has 3 live neighbors, it returns to life.
+                        } else if (grid[r][c] === 0 && neighbors === 3) {
+                            gridCopy[r][c] = 1;
                         }
                     }
                 }
@@ -84,22 +111,23 @@ const Game = () => {
             <aside>
                 <section>
                     <div style={{ display: "grid", gridTemplateColumns: `repeat(${numCols}, 20px)` }}>
-                        {grid.map((rows, i) =>
-                            rows.map((col, k) => (
-                                <div key={`${i}-${k}`}
+                        {grid.map((rows, r) =>
+                            rows.map((col, c) => {
+                                return <div key={`${r}-${c}`}
                                     onClick={() => {
                                         const newGrid = produce(grid, gridCopy => {
-                                            gridCopy[i][k] = grid[i][k] ? 0 : 1;
+                                            gridCopy[r][c] = grid[r][c] ? 0 : 1;
                                         });
                                         setGrid(newGrid);
                                     }}
-                                    style={{ width: 20, height: 20, backgroundColor: grid[i][k] ? "silver" : undefined, border: "solid 1px whitesmoke" }}
+                                    style={{ width: 20, height: 20, backgroundColor: grid[r][c] ? "silver" : undefined, border: "solid 1px whitesmoke" }}
                                 />
-                            ))
+                            })
                         )}
                     </div>
                 </section>
                 <p>Delay: {speed}ms</p>
+                <p>Generation: {generation}</p>
                 <section>
                     <aside>
                         <button className="m-10" onClick={() => {
@@ -114,13 +142,7 @@ const Game = () => {
                     </aside>
                     <aside>
                         <button className="m-10" onClick={() => {
-                            const rows = [];
-                            for (let i = 0; i < numRows; i++) {
-                                rows.push(
-                                    Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0))
-                                );
-                            }
-                            setGrid(rows)
+                            generateRandomGrid()
                         }}>
                             Randomize
                         </button>

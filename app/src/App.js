@@ -7,9 +7,9 @@ function App() {
       <header>
         <section>
           <aside>
-            <figure>
+            <h4>
               Game of Life
-            </figure>
+              </h4>
           </aside>
           <aside className="pr-45">
             In Memoriam: John Conway
