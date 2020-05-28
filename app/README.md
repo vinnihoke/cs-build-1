@@ -1,68 +1,35 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Welcome to Conway's Game of Life in Javascript
+This project is in dedication to John Conway, who unfortunately passed away this past April.
 
-## Available Scripts
+> [Link to live project.](https://game-of-life.vinnihoke.now.sh/)
 
-In the project directory, you can run:
+### Who is John Conway?
+John Horton Conway, born Dec. 26th, 1937, was an English-born Princeton mathematician whose body of work ranged from the rigorously highbrow to the frivolously fun, earning him prizes and a reputation as a creative, iconoclastic and even magical genius.
 
-### `yarn start`
+#### Notable Achievements
+* Discovered surreal numbers
+* Co-conceptualized the Free Will Theorem
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Understanding the Game
+This is a Turing complete cellular automata project that only requires an initial input, making this a zero player game that requires no interation. In order to make it more interactive I've incorporated clickable cells to allow you to change the course of the game. Adding to the delay will slow the game down, or conversely speed it up. Cells age and change colors as generation pass.
 
-### `yarn test`
+#### Rule #1
+Any live cell with two or three live neighbours survives.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Rule #2
+Any dead cell with three live neighbours becomes a live cell.
 
-### `yarn build`
+#### Rule #3
+All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## What is Turing Completeness?
+A program is considered Turing Complete if it has a theoretical infinite amount of memory, and is able to recognize or decide other data-manipulation rule sets. This can be thought of as an if/else statement.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Alan Turing imagined an infinite piece of tape that has equally spaced cells. Each cell had either a zero, or a one. In order to be turing complete, a system would need to evaluate the value in a given cell, and make a decision. For instance, the program advances to cell 235 and reads a one. It evaluates the value it found and makes a conditional change. If cell 235 is one, go to cell 525, etc.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Conways Game of Life is Turing Complete because the algorithm calculates the neighbors at a given cell, and, given the set of rules above, determines if the cell should be a one or zero, alive or dead.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Resources
+https://youtu.be/DvVt11mPuM0
