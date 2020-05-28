@@ -22,3 +22,10 @@
     left: 25%;
     position: fixed;
 }
+
+.memoir {
+    background-image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.2)), url("https://static01.nyt.com/images/2020/04/18/obituaries/14Conway1/merlin_171560415_a372e14d-1b58-4837-bc68-e474efc320a0-jumbo.jpg?quality=90&auto=webp");
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}

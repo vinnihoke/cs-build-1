@@ -1,5 +1,6 @@
 import React from 'react';
 import Game from './ components/Game';
+import { Link } from "@reach/router";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
               </h4>
           </aside>
           <aside className="pr-45">
-            In Memoriam: John Conway
+            <Link to="about">About</Link>
           </aside>
         </section>
       </header>

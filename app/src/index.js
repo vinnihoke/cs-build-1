@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import About from './pages/About';
+import { Router } from "@reach/router";
 import * as serviceWorker from './serviceWorker';
 
 import "./scss/index.scss"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <App path="/" />
+      <About path="about" />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -47,6 +47,7 @@ const Game = () => {
 
     const [generationStyle, setGenerationStyle] = useState("silver")
     const generationColors = () => {
+        if (generations.current < 100) return "silver"
         if (generations.current > 100 && generations.current < 200) return setGenerationStyle("#E6B0AA")
         if (generations.current > 200 && generations.current < 300) return setGenerationStyle("#CD6155")
         if (generations.current > 300) return setGenerationStyle("#641E16")
@@ -82,6 +83,7 @@ const Game = () => {
                     for (let c = 0; c < numCols; c++) {
                         // You could also use a series of if statements to calculate neighbors.
                         let neighbors = 0;
+                        // Destructuring x and y from the operations.
                         operations.forEach(([x, y]) => {
                             const newR = r + x;
                             const newC = c + y;
