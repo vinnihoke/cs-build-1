@@ -126,10 +126,10 @@ const Game = () => {
                         )}
                     </div>
                 </section>
-                <aside> <p>Delay: {speed}ms</p></aside>
-                <aside><p>Generations: {generations.current++}</p></aside>
-
-                <p>Generations: {generations.current++}</p>
+                <section>
+                    <aside> <p>Delay: {speed}ms</p></aside>
+                    <aside><p>Generations: {generations.current++}</p></aside>
+                </section>
                 <section>
                     <aside>
                         <button className="m-10" onClick={() => {
