@@ -30,6 +30,11 @@ Alan Turing imagined an infinite piece of tape that has equally spaced cells. Ea
 
 Conways Game of Life is Turing Complete because the algorithm calculates the neighbors at a given cell, and, given the set of rules above, determines if the cell should be a one or zero, alive or dead.
 
+## About the Project
+This project was built from a tutorial found below. Improvements were made to track generations, change the speed of the game, and added a template to create a fun blaster. 
+
+The UI was built using an experimental open-source UI framework that I've been working on with a friend. It was built using React and Hooks. The project is deployed on Vercel (Zeit).
+
 
 ### Resources
 https://youtu.be/DvVt11mPuM0
