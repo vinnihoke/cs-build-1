@@ -126,7 +126,9 @@ const Game = () => {
                         )}
                     </div>
                 </section>
-                <p>Delay: {speed}ms</p>
+                <aside> <p>Delay: {speed}ms</p></aside>
+                <aside><p>Generations: {generations.current++}</p></aside>
+
                 <p>Generations: {generations.current++}</p>
                 <section>
                     <aside>
